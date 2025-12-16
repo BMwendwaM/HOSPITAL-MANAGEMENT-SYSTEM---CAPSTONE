@@ -2,12 +2,20 @@ from django.db import models
 
 # Patients Model for storing patient information
 
-
 class Patient(models.Model):
+    GENDER_CHOICES = [
+        ("M", "Male"),
+        ("F", "Female"),
+        ("O", "Other"),
+    ]
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
-    gender = models.CharField(max_length=10)
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES
+    )
     phone = models.CharField(max_length=30, blank=True)
     national_id = models.CharField(max_length=50, unique=True)
 

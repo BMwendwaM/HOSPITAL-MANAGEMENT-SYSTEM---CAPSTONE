@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'patients.apps.PatientsConfig',
     'visits.apps.VisitsConfig',
+    'rest_framework',
+    'medical.apps.MedicalConfig',
+    'billing.apps.BillingConfig',
+    'django_filters',
 ]
 
 # Custom user model
@@ -127,3 +131,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Rest Framework Configuration
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication"
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated"
+    ],
+}

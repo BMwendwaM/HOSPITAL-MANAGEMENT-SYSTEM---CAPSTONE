@@ -1,7 +1,6 @@
 from django.db import models
 from patients.models import Patient
-
-# Visits Model for tracking patient visits status and details
+from django.utils import timezone
 
 class Visit(models.Model):
 
@@ -18,11 +17,11 @@ class Visit(models.Model):
 
     patient = models.ForeignKey(
         Patient,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="visits"
     )
 
-    visit_number = models.CharField(max_length=50, unique=True)
+    visit_number = models.CharField(max_length=20, unique=True, blank=True)
     status = models.CharField(
         max_length=20,
         choices=Status.choices,
@@ -40,6 +39,15 @@ class Visit(models.Model):
 
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.visit_number:
+            today = timezone.now().date()
+            # Count how many visits exist today
+            today_count = Visit.objects.filter(started_at__date=today).count() + 1
+            # Format: VST-YYYYMMDD-XXX
+            self.visit_number = f"VST-{today.strftime('%Y%m%d')}-{today_count:03}"
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Visit {self.visit_number} - {self.patient}"
