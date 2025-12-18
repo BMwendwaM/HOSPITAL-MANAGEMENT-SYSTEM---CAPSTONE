@@ -7,13 +7,17 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
 
+    # Add Cashier when creating an invoice
+    def perform_create(self, serializer):
+        serializer.save(cashier=self.request.user)
+
     # Add item to bill
 
     @decorators.action(detail=True, methods=["post"])
     def add_item(self, request, pk=None):
         invoice = self.get_object()
-        desc = request.data.get('description')
-        amount = request.data.get('amount')
+        desc = request.data.get("description")
+        amount = request.data.get("amount")
         
         BillItem.objects.create(invoice=invoice, description=desc, amount=amount)
         
@@ -25,7 +29,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
     # Pay the bill
 
-    @decorators.action(detail=True, methods=['post'])
+    @decorators.action(detail=True, methods=["post"])
     def pay(self, request, pk=None):
         invoice = self.get_object()
         invoice.paid = True
@@ -36,4 +40,4 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         visit.status = Visit.Status.COMPLETED
         visit.save()
         
-        return response.Response({'status': 'Paid & Discharged'})
+        return response.Response({"status": "Paid & Discharged"})

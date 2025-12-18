@@ -20,13 +20,13 @@ from django.urls import path, include
 # Include URLs for the whole system
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 
     # Connect our apps' URLs here
 
-    path('api/users/', include('users.urls')),
-    path('api/patients/', include('patients.urls')),
-    path('api/visits/', include('visits.urls')),
-    path('api/medical/', include('medical.urls')),
-    path('api/billing/', include('billing.urls')),
+    path("api/users/", include("users.urls")),
+    path("api/patients/", include("patients.urls")),
+    path("api/visits/", include("visits.urls")),
+    path("api/medical/", include("medical.urls")),
+    path("api/billing/", include("billing.urls")),
 ]

@@ -5,8 +5,8 @@ from .views import PatientViewSet
 # Create a router and register paths
 
 router = DefaultRouter()
-router.register(r'', PatientViewSet)
+router.register(r"", PatientViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("", include(router.urls)),
 ]

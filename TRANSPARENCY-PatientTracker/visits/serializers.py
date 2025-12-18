@@ -23,4 +23,4 @@ class VisitSerializer(serializers.ModelSerializer):
             "id", "visit_number", "status", "patient", "patient_data", 
             "payment_type", "started_at", "triage", "diagnoses", "invoice"
         ]
-        read_only_fields = ['visit_number', 'started_at', 'completed_at']
+        read_only_fields = ["visit_number", "started_at", "completed_at"]

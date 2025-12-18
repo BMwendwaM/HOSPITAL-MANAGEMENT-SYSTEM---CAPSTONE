@@ -37,13 +37,13 @@ class Diagnosis(models.Model):
 
     # NEW FIELD: The Doctor's Decision
     FOLLOW_UP_CHOICES = [
-        ('pharmacy', 'Pharmacy'),
-        ('lab', 'Laboratory'),
-        ('radiology', 'Radiology'),
-        ('billing', 'Billing'),
+        ("pharmacy", "Pharmacy"),
+        ("lab", "Laboratory"),
+        ("radiology", "Radiology"),
+        ("billing", "Billing"),
     ]
-    follow_up = models.CharField(max_length=20, choices=FOLLOW_UP_CHOICES, default='billing')
-    
+    follow_up = models.CharField(max_length=20, choices=FOLLOW_UP_CHOICES, default="billing")
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

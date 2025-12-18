@@ -1,4 +1,5 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from .models import Triage, Diagnosis
 from .serializers import TriageSerializer, DiagnosisSerializer
 from visits.models import Visit
@@ -28,14 +29,22 @@ class DiagnosisViewSet(viewsets.ModelViewSet):
         visit = instance.visit
         decision = instance.follow_up
         
-        if decision == 'lab':
+        if decision == "lab":
             visit.status = Visit.Status.LAB
-        elif decision == 'radiology':
+        elif decision == "radiology":
             visit.status = Visit.Status.RADIOLOGY
-        elif decision == 'pharmacy':
+        elif decision == "pharmacy":
             visit.status = Visit.Status.PHARMACY
         else:
             # Default to billing if no follow-up
             visit.status = Visit.Status.BILLING
             
         visit.save()
+
+        # Prevent Delete operations on triage and diagnosis records
+    
+    def destroy(self, request, *args, **kwargs):
+        return Response(
+            {"error": "Security Alert: Medical records cannot be deleted. They are permanent."}, 
+            status=status.HTTP_403_FORBIDDEN
+        )
