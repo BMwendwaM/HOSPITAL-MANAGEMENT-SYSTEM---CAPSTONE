@@ -29,9 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x+xzhge*&i(_s+szpl%w9e$cw+k4_s=o&kvi8b!_r-h-k01j92'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Reads DEBUG from environment variable, defaults to False if not set
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bonnie.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -132,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
