@@ -1,4 +1,4 @@
-from rest_framework import viewsets, decorators, response
+from rest_framework import viewsets, decorators, response, status
 from .models import Invoice, BillItem
 from .serializers import InvoiceSerializer, BillItemSerializer
 from visits.models import Visit
@@ -41,3 +41,10 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         visit.save()
         
         return response.Response({"status": "Paid & Discharged"})
+    
+    # Override destroy to prevent deletion of invoices
+    def destroy(self, request, *args, **kwargs):
+        return response.Response(
+            {"error": "Security Alert: Financial records cannot be deleted. This event has been logged."}, 
+            status=status.HTTP_403_FORBIDDEN
+        )
